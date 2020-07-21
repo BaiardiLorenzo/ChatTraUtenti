@@ -37,7 +37,7 @@ int main() {
     }
 
     //----------CHAT DI GRUPPO------------------------------
-    auto groupChat = marco.createGroupChat("Gruppo Studio", "gruppo per studiare", {&});
+    auto groupChat = marco.createGroupChat("Gruppo Studio", "gruppo per studiare", {&alessia,&filippo});
     auto fooG = std::make_shared<Message>("Quando si studia allora", "Alessia");
     auto barG = std::make_shared<Message>("Decidete voi", "Filippo");
     auto fooBarG = std::make_shared<Message>("Per me si puo fare domani", "Marco", true);

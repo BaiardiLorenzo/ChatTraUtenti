@@ -17,11 +17,9 @@ public:
 
     ~PrivateChat() override;
 
-    bool addMessage(const std::shared_ptr<Message> &m) override;
+    void addMessage(const std::shared_ptr<Message> &m) override;
 
-    bool changeMessage(std::shared_ptr<Message> &m, const std::string &newText) override;
-
-    bool removeMessage(std::shared_ptr<Message>& m) override;
+    void removeMessage(std::shared_ptr<Message>& m) override;
 
     void readAllMessages() override;
 

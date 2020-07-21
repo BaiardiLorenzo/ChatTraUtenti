@@ -20,16 +20,18 @@ int main() {
 
     messageNotifier.attach();
 
-    systemChatptr->addMessage(foo);
-    userChatptr->addMessage(bar);
-    userChatptr->addMessage(fooBar);
+    try {
+        systemChatptr->addMessage(foo);
+        userChatptr->addMessage(bar);
+        userChatptr->addMessage(fooBar);
+    } catch (ChatException &e) {
+        e.printError();
+    }
 
     systemChatptr->readNewMessages();
     userChatptr->readAllMessages();
 
     systemChatptr->readNewMessages();
-
-    systemChatptr->changeMessage(bar, "In realta tutto male, te che mi racconti?");
 
     systemChatptr->readAllMessages();
 
@@ -53,10 +55,14 @@ int main() {
 
     messageNotifierG.attach();
 
-    gruppoStudio->addMessage(fooG);
-    gruppoStudio->addMessage(barG);
-    gruppoStudio->addMessage(fooBarG);
-    gruppoStudio->addMessage(mediaG);
+    try {
+        gruppoStudio->addMessage(fooG);
+        gruppoStudio->addMessage(barG);
+        gruppoStudio->addMessage(fooBarG);
+        gruppoStudio->addMessage(mediaG);
+    } catch (ChatException &e) {
+        e.printError();
+    }
 
     gruppoStudio->readNewMessages();
 }

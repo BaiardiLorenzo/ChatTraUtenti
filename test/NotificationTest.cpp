@@ -6,12 +6,13 @@
 #include "../Notification.h"
 #include "../User.h"
 
-User sysMarco("Marco", 15,'m');
-User alessia("Alessia", 18, 'f');
 
 TEST(Notification, enableNotification){
-    std::shared_ptr<Chat> chat_ptr = std::make_shared<PrivateChat>(sysMarco.getPrimaryKey(), alessia.getPrimaryKey());
-    Notification notification(chat_ptr, true);
+    User sysMarco("Marco", 15,'m');
+    User chiara("Alessia", 18, 'f');
+    std::shared_ptr<Chat> chat = std::make_shared<PrivateChat>(sysMarco.getPrimaryKey(), chiara.getPrimaryKey());
+    Notification notification(chat, true);
+
     ASSERT_TRUE(notification.isEnable());
     notification.setEnable(false);
     ASSERT_FALSE(notification.isEnable());

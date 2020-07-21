@@ -10,6 +10,12 @@ MultimediaMessage::MultimediaMessage(const std::string &text, const std::string 
 
 void MultimediaMessage::readMessage() {
     std::cout<<ownerPrimaryKey<<": Media-"<<linkMedia<<" :: "<<text<<" -Ore "<<timeS<<std::endl;
+    if(!isRead())
+        setRead(true);
+}
+
+void MultimediaMessage::openLinkMedia() {
+    std::cout<<"Sto aprendo il link del messaggio"<<std::endl;
 }
 
 

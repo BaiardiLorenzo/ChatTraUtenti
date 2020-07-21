@@ -33,7 +33,7 @@ public:
 
     void addChat(const std::string &chatPrimaryKey, std::shared_ptr<Chat> &chat_ptr);
 
-    bool removeChat(const std::shared_ptr<Chat> &c);
+    void removeChat(const std::shared_ptr<Chat> &c);
 
     const std::string &getName() const {
         return name;

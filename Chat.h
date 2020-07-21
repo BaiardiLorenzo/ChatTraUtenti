@@ -15,26 +15,23 @@
 #include "Message.h"
 #include "Observer.h"
 #include "Subject.h"
+#include "ChatException.h"
 
 
 class Chat : public Subject{
 public:
     explicit Chat(const std::string &primaryKey) : primaryKey(primaryKey){};
 
-    ~Chat() override {
-        std::cout<<"Chat e messaggi cancellati"<<std::endl;
-    };
+    ~Chat() override {};
 
-    virtual bool addMessage(const std::shared_ptr<Message> &m) = 0;
+    virtual void addMessage(const std::shared_ptr<Message> &m) = 0;
 
-    virtual bool changeMessage(std::shared_ptr<Message> &m, const std::string &newText) = 0;
-
-    virtual bool removeMessage(std::shared_ptr<Message> &m) = 0;
+    virtual void removeMessage(std::shared_ptr<Message> &m) = 0;
 
     virtual void readAllMessages() = 0;
 
     virtual bool readNewMessages() = 0;
-
+    
     const std::shared_ptr<Message> &getLastMessage() const{
         messages.back();
     }

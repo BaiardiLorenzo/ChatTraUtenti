@@ -15,6 +15,8 @@ public:
 
     void readMessage() override;
 
+    void openLinkMedia();
+
 protected:
     std::string linkMedia;
 };

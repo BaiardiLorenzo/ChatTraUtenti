@@ -10,36 +10,28 @@ PrivateChat::~PrivateChat() {
 
 }
 
-bool PrivateChat::addMessage(const std::shared_ptr<Message> &m) {
-    if(m->getOwner() == firstUserPrimaryKey || m->getOwner() == secondUserPrimaryKey)
+void PrivateChat::addMessage(const std::shared_ptr<Message> &m) {
+    if(m->getOwner() == firstUserPrimaryKey || m->getOwner() == secondUserPrimaryKey){
         if(!m->getText().empty()){
             messages.push_back(m);
             if(m->getOwner() == secondUserPrimaryKey)
                 this->notify();
-            return true;
         }
-    return false;
-}
-
-bool PrivateChat::changeMessage(std::shared_ptr<Message> &m, const std::string &newText) {
-    auto it = std::find(messages.begin(),messages.end(), m);
-    if(it != messages.end()){
-        ModifiedMessage *mM = new ModifiedMessage(newText, (*it)->getOwner(), (*it)->isRead());
-        std::shared_ptr<Message> m_ptr = std::make_shared<ModifiedMessage>(*mM);
-        std::replace(messages.begin(), messages.end(), *it, m_ptr);
-        return true;
+    } else {
+        std::string message = "Messaggio non aggiunto, "+m->getOwner()+" non fa parte di questa Chat";
+        throw ChatException(getPrimaryKey(), message);
     }
-    return false;
 }
 
-bool PrivateChat::removeMessage(std::shared_ptr<Message> &m) {
-    bool erase = false;
+void PrivateChat::removeMessage(std::shared_ptr<Message> &m) {
     auto it = std::find(messages.begin(),messages.end(), m);
     if(it != messages.end()){
         messages.erase(it);
-        erase = true;
+        std::cout<<"Il messaggio selezionato è stato cancellato"<<std::endl;
+    }else{
+        std::string message = "Messaggio non è stato trovato, non è stato eliminato dalla Chat";
+        throw ChatException(getPrimaryKey(), message);
     }
-    return erase;
 }
 
 void PrivateChat::readAllMessages() {

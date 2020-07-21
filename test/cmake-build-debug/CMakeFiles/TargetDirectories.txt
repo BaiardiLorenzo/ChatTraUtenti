@@ -1,0 +1,7 @@
+C:/Users/baial/Documents/CLionProjects/ChatTraUtenti/test/cmake-build-debug/CMakeFiles/runChatTests.dir
+C:/Users/baial/Documents/CLionProjects/ChatTraUtenti/test/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/baial/Documents/CLionProjects/ChatTraUtenti/test/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+C:/Users/baial/Documents/CLionProjects/ChatTraUtenti/test/cmake-build-debug/lib/googletest-master/CMakeFiles/gtest.dir
+C:/Users/baial/Documents/CLionProjects/ChatTraUtenti/test/cmake-build-debug/lib/googletest-master/CMakeFiles/gtest_main.dir
+C:/Users/baial/Documents/CLionProjects/ChatTraUtenti/test/cmake-build-debug/lib/googletest-master/CMakeFiles/edit_cache.dir
+C:/Users/baial/Documents/CLionProjects/ChatTraUtenti/test/cmake-build-debug/lib/googletest-master/CMakeFiles/rebuild_cache.dir

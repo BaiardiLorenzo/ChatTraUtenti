@@ -47,14 +47,15 @@ void User::addChat(const std::string &key, std::shared_ptr<Chat> &chat_ptr) {
     chats.insert(std::make_pair(key, chat_ptr));
 }
 
-bool User::removeChat(const std::shared_ptr<Chat> &c) {
-    bool removed = false;
+void User::removeChat(const std::shared_ptr<Chat> &c) {
     auto it = chats.find(c->getPrimaryKey());
     if(it != chats.end()){
-        removed = true;
         chats.erase(it);
+        std::cout<<getPrimaryKey()<<" ha abbandonato la chat "<<c->getPrimaryKey()<<std::endl;
+    }else{
+        throw ChatException(c->getPrimaryKey(),"L'utente non partecipa a questa chat, non ha abbandonato la chat");
     }
-    return removed;
+
 }
 
 

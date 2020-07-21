@@ -12,37 +12,29 @@ GroupChat::~GroupChat() {
 
 }
 
-bool GroupChat::addMessage(const std::shared_ptr<Message> &m) {
+void GroupChat::addMessage(const std::shared_ptr<Message> &m) {
     auto it = find(usersPrimaryKeys.begin(), usersPrimaryKeys.end(), m->getOwner());
-    if(it != usersPrimaryKeys.end())
-        if(!m->getText().empty()){
+    if(it != usersPrimaryKeys.end()){
+        if(!m->getText().empty()) {
             messages.push_back(m);
-            if(m->getOwner() != adminPrimaryKey)
+            if (m->getOwner() != adminPrimaryKey)
                 this->notify();
-            return true;
         }
-    return false;
-}
-
-bool GroupChat::changeMessage(std::shared_ptr<Message> &m, const std::string &newText) {
-    auto it = std::find(messages.begin(),messages.end(), m);
-    if(it != messages.end()){
-        ModifiedMessage *mM = new ModifiedMessage(newText, (*it)->getOwner(), (*it)->isRead());
-        std::shared_ptr<Message> m_ptr = std::make_shared<ModifiedMessage>(*mM);
-        std::replace(messages.begin(), messages.end(), *it, m_ptr);
-        return true;
+    } else{
+        std::string message = "Messaggio non aggiunto, "+m->getOwner()+" non fa parte di questa Chat";
+        throw ChatException(getPrimaryKey(), message);
     }
-    return false;
 }
 
-bool GroupChat::removeMessage(std::shared_ptr<Message> &m) {
-    bool erase = false;
+void GroupChat::removeMessage(std::shared_ptr<Message> &m) {
     auto it = find(messages.begin(), messages.end(), m);
     if(it!=messages.end()){
         messages.erase(it);
-        erase = true;
+        std::cout<<"Il messaggio selezionato è stato cancellato"<<std::endl;
+    }else{
+        std::string message = "Messaggio non è stato trovato, non è stato eliminato dalla Chat";
+        throw ChatException(getPrimaryKey(), message);
     }
-    return erase;
 }
 
 void GroupChat::readAllMessages() {

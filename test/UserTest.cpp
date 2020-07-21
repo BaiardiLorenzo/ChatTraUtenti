@@ -7,6 +7,7 @@
 
 TEST(User, getterAndSetter){
     User stefano("Stefano", 26, 'm');
+
     ASSERT_EQ(stefano.getName(), "Stefano");
     ASSERT_EQ(stefano.getAge(), 26);
     ASSERT_EQ(stefano.getGender(), 'm');

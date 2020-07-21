@@ -8,7 +8,6 @@
 #include <algorithm>
 
 #include "Chat.h"
-#include "ModifiedMessage.h"
 
 class GroupChat : public Chat{
 public:

@@ -3,7 +3,7 @@
 //
 #include "PrivateChat.h"
 
-PrivateChat::PrivateChat(const std::string &me, const std::string &otherUser): Chat(me+"-"+otherUser), firstUserPrimaryKey(me), secondUserPrimaryKey(otherUser){
+PrivateChat::PrivateChat(const std::string &me, const std::string &otherUser): Chat(otherUser), firstUserPrimaryKey(me), secondUserPrimaryKey(otherUser){
 }
 
 PrivateChat::~PrivateChat() {

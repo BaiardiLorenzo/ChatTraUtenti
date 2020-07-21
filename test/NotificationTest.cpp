@@ -8,12 +8,13 @@
 
 
 TEST(Notification, enableNotification){
-    User sysMarco("Marco", 15,'m');
-    User chiara("Alessia", 18, 'f');
-    std::shared_ptr<Chat> chat = std::make_shared<PrivateChat>(sysMarco.getPrimaryKey(), chiara.getPrimaryKey());
+    User marco("Marco", 27,'m');
+    User lorenzo("Lorenzo", 20, 'm');
+    auto chat = marco.createPrivateChat(lorenzo);
+    auto message = std::make_shared<Message>("Prova della notifica", lorenzo.getPrimaryKey());
     Notification notification(chat, true);
-
     ASSERT_TRUE(notification.isEnable());
-    notification.setEnable(false);
-    ASSERT_FALSE(notification.isEnable());
+    notification.attach();
+    chat->addMessage(message);
+
 }

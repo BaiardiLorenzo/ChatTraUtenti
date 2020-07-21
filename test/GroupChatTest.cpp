@@ -6,40 +6,35 @@
 #include "../User.h"
 
 TEST(GroupChat, getterAndSetter){
-    User sysThomas("Thomas", 15, 'm');
-    User alessia("Alessia", 18, 'f');
-    std::vector<std::string> usersPrimaryKeys;
-    usersPrimaryKeys.push_back(sysThomas.getPrimaryKey());
-    usersPrimaryKeys.push_back(alessia.getPrimaryKey());
-    GroupChat gc("Gruppo Normale", "semplicemente un gruppo", sysThomas.getPrimaryKey(), usersPrimaryKeys);
+    User stefano("Stefano", 26, 'm');
+    User marco("Marco", 14, 'm');
+    User lapo("Lapo", 42, 'm');
+    GroupChat gc("Gruppo di Test", "per provare se funziona tutto", stefano.getPrimaryKey(), {marco.getPrimaryKey(), lapo.getPrimaryKey()});
 
-    ASSERT_EQ(gc.getAdminPrimaryKey(), sysThomas.getPrimaryKey());
-    ASSERT_EQ(gc.getNameChat(), "Gruppo Normale");
-    ASSERT_EQ(gc.getUsersPrimaryKeys(), usersPrimaryKeys);
-
-    gc.setDescription("che bel gruppo");
-    ASSERT_EQ(gc.getDescription(), "che bel gruppo");
+    ASSERT_EQ(gc.getAdminPrimaryKey(), stefano.getPrimaryKey());
+    ASSERT_EQ(gc.getNameChat(), "Gruppo di Test");
+    ASSERT_EQ(gc.getDescription(), "per provare se funziona tutto");
+    gc.setDescription("dovrebbe funzionare tutto");
+    ASSERT_EQ(gc.getDescription(), "dovrebbe funzionare tutto");
 }
 
 TEST(GroupChat, methods){
-    User sysThomas("Thomas", 15, 'm');
-    User alessia("Alessia", 18, 'f');
-    std::vector<std::string> usersPrimaryKeys;
-    usersPrimaryKeys.push_back(sysThomas.getPrimaryKey());
-    usersPrimaryKeys.push_back(alessia.getPrimaryKey());
-    GroupChat gc("Gruppo Normale","semplicemente un gruppo", sysThomas.getPrimaryKey(),usersPrimaryKeys);
-    std::shared_ptr<Message> message = std::make_shared<Message>("Cosa si organizza allora?", sysThomas.getPrimaryKey());
+    User stefano("Stefano", 26, 'm');
+    User marco("Marco", 14, 'm');
+    User lapo("Lapo", 42, 'm');
+    User lorenzo("Lorenzo", 20,'m');
+    GroupChat gc("Gruppo di Test", "per provare se funziona tutto", stefano.getPrimaryKey(), {marco.getPrimaryKey(), lapo.getPrimaryKey()});
 
+    auto message = std::make_shared<Message>("Abbiamo controllato tutto?", stefano.getPrimaryKey());
+    auto errorMessage = std::make_shared<Message>("Posso entrare nel gruppo?", lorenzo.getPrimaryKey());
+    auto removedMessage = std::make_shared<Message>("Credo che qualcosa non funzioni...", lapo.getPrimaryKey());
     gc.addMessage(message);
+
     ASSERT_EQ(gc.getLastMessage(), message);
-
-    User esclusa("Fabiana", 37,'f');
-    std::shared_ptr<Message> errorMessage = std::make_shared<Message>("Posso entrare nel gruppo?", esclusa.getPrimaryKey());
+    ASSERT_EQ(gc.getNewMessages(), 1);
+    ASSERT_TRUE(gc.readNewMessages());
+    ASSERT_FALSE(gc.readNewMessages());
     ASSERT_THROW(gc.addMessage(errorMessage), ChatException);
-
-    auto changedMessagge = std::make_shared<Message>("Salve ragazzi", sysThomas.getPrimaryKey());
-
-    ASSERT_THROW(gc.removeMessage(changedMessagge), ChatException);
-
+    ASSERT_THROW(gc.removeMessage(removedMessage), ChatException);
     ASSERT_NO_THROW(gc.removeMessage(message));
 }

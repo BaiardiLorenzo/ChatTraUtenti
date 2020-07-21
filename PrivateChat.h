@@ -9,7 +9,6 @@
 #include <algorithm>
 
 #include "Chat.h"
-#include "ModifiedMessage.h"
 
 class PrivateChat : public Chat{
 public:

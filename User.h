@@ -47,10 +47,6 @@ public:
         return age;
     }
 
-    void setAge(int age) {
-        User::age = age;
-    }
-
     char getGender() const {
         return gender;
     }

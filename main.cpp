@@ -4,65 +4,54 @@
 
 int main() {
 
-    User systemUser("Marco",14,'m');
-    User otherUser("Alessia",12,'f');
+    //USERS
+    User marco("Marco", 24, 'm');
+    User alessia("Alessia", 19, 'f');
+    User filippo("Filippo", 26, 'm');
 
     //----------CHAT PRIVATA------------------------------
+    auto chatMarcoAlessia = marco.createPrivateChat(alessia);
+    auto chatAlessiaMarco = alessia.findPrivateChat(marco);
 
-    std::shared_ptr<Chat> systemChatptr = systemUser.createPrivateChat(otherUser);
-    std::shared_ptr<Chat> userChatptr = otherUser.findPrivateChat(systemUser);
+    auto foo = std::make_shared<Message>("Ciao Francesca, come va?", "Marco", true);
+    auto bar = std::make_shared<Message>("Tutto bene, te?", "Alessia");
+    auto fooBar = std::make_shared<Message>("Anch'io tutto bene", "Marco", true);
 
-    std::shared_ptr<Message> foo = std::make_shared<Message>("Ciao Francesca, come va?", "Marco", true);
-    std::shared_ptr<Message> bar = std::make_shared<Message>("Tutto bene, te?", "Alessia");
-    std::shared_ptr<Message> fooBar = std::make_shared<Message>("Anch'io tutto bene", "Marco", true);
-
-    Notification messageNotifier(systemChatptr, true);
-
+    Notification messageNotifier(chatMarcoAlessia, true);
     messageNotifier.attach();
-
     try {
-        systemChatptr->addMessage(foo);
-        userChatptr->addMessage(bar);
-        userChatptr->addMessage(fooBar);
+        chatMarcoAlessia->addMessage(foo);
+        chatAlessiaMarco->addMessage(bar);
+        chatAlessiaMarco->addMessage(fooBar);
     } catch (ChatException &e) {
         e.printError();
     }
-
-    systemChatptr->readNewMessages();
-    userChatptr->readAllMessages();
-
-    systemChatptr->readNewMessages();
-
-    systemChatptr->readAllMessages();
-
-    systemUser.removeChat(systemChatptr);
+    chatMarcoAlessia->readNewMessages();
+    chatAlessiaMarco->readAllMessages();
+    chatMarcoAlessia->readNewMessages();
+    chatMarcoAlessia->readAllMessages();
+    try{
+        marco.removeChat(chatMarcoAlessia);
+    }catch(ChatException &e){
+        e.printError();
+    }
 
     //----------CHAT DI GRUPPO------------------------------
-    User thirdUser("Filippo", 26, 'm');
+    auto groupChat = marco.createGroupChat("Gruppo Studio", "gruppo per studiare", {&});
+    auto fooG = std::make_shared<Message>("Quando si studia allora", "Alessia");
+    auto barG = std::make_shared<Message>("Decidete voi", "Filippo");
+    auto fooBarG = std::make_shared<Message>("Per me si puo fare domani", "Marco", true);
+    auto mediaG = std::make_shared<MultimediaMessage>("Ecco il link della video Lezione", filippo.getPrimaryKey(), "www.google.com");
 
-    std::vector<User*> utenti_del_gruppo;
-    utenti_del_gruppo.push_back(&systemUser);
-    utenti_del_gruppo.push_back(&otherUser);
-    utenti_del_gruppo.push_back(&thirdUser);
-    std::shared_ptr<Chat> gruppoStudio = systemUser.createGroupChat("Gruppo Studio","gruppo per studiare", utenti_del_gruppo);
-
-    std::shared_ptr<Message> fooG = std::make_shared<Message>("Quando si studia allora", "Alessia");
-    std::shared_ptr<Message> barG = std::make_shared<Message>("Decidete voi", "Filippo");
-    std::shared_ptr<Message> fooBarG = std::make_shared<Message>("Per me si puo fare domani", "Marco", true);
-    std::shared_ptr<Message> mediaG = std::make_shared<MultimediaMessage>("Ecco il link della video Lezione", thirdUser.getPrimaryKey(), "www.google.com");
-
-    Notification messageNotifierG(gruppoStudio, true);
-
+    Notification messageNotifierG(groupChat, true);
     messageNotifierG.attach();
-
     try {
-        gruppoStudio->addMessage(fooG);
-        gruppoStudio->addMessage(barG);
-        gruppoStudio->addMessage(fooBarG);
-        gruppoStudio->addMessage(mediaG);
+        groupChat->addMessage(fooG);
+        groupChat->addMessage(barG);
+        groupChat->addMessage(fooBarG);
+        groupChat->addMessage(mediaG);
     } catch (ChatException &e) {
         e.printError();
     }
-
-    gruppoStudio->readNewMessages();
+    groupChat->readNewMessages();
 }

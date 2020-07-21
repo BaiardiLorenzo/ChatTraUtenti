@@ -22,7 +22,7 @@ public:
 
     void update() override;
 
-    void send(const std::shared_ptr<Message> &m);
+    void send(const std::shared_ptr<Message> &m, const int newMessages);
 
     bool isEnable() const {
         return enable;

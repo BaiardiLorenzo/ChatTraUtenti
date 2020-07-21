@@ -7,30 +7,30 @@
 
 
 TEST(PrivateChat, GetterAndSetter){
-    User sysLuigi("Luigi", 15,'m');
-    User paola("Paola", 18, 'f');
-    PrivateChat pc(sysLuigi.getPrimaryKey(), paola.getPrimaryKey());
+    User stefano("Stefano", 26, 'm');
+    User marco("Marco", 18, 'm');
+    PrivateChat pc(stefano.getPrimaryKey(), marco.getPrimaryKey());
 
-    ASSERT_EQ(pc.getFirstUserPrimaryKey(), sysLuigi.getPrimaryKey());
-    ASSERT_EQ(pc.getSecondUserPrimaryKey(), paola.getPrimaryKey());
+    ASSERT_EQ(pc.getFirstUserPrimaryKey(), stefano.getPrimaryKey());
+    ASSERT_EQ(pc.getSecondUserPrimaryKey(), marco.getPrimaryKey());
 }
 
 TEST(PrivateChat, Methods){
-    User sysLuigi("Luigi", 15,'m');
-    User paola("Paola", 18, 'f');
-    PrivateChat pc(sysLuigi.getPrimaryKey(), paola.getPrimaryKey());
-    std::shared_ptr<Message> message = std::make_shared<Message>("Allora cosa mi racconti?", sysLuigi.getPrimaryKey());
+    User stefano("Stefano", 26, 'm');
+    User marco("Marco", 18, 'm');
+    User lapo("Lapo", 42, 'm');
+    PrivateChat pc(stefano.getPrimaryKey(), marco.getPrimaryKey());
+
+    auto message = std::make_shared<Message>("Allora cosa mi racconti?", stefano.getPrimaryKey());
+    auto errorMessage = std::make_shared<Message>("Posso entrare nel gruppo?", lapo.getPrimaryKey());
+    auto removedMessage = std::make_shared<Message>("Buonasera", stefano.getPrimaryKey());
     pc.addMessage(message);
 
     ASSERT_EQ(pc.getLastMessage(), message);
-
-    User giacomo("Giacomo", 27,'m');
-    std::shared_ptr<Message> errorMessage = std::make_shared<Message>("Posso entrare nel gruppo?", giacomo.getPrimaryKey());
+    ASSERT_EQ(pc.getNewMessages(), 1);
+    ASSERT_TRUE(pc.readNewMessages());
+    ASSERT_FALSE(pc.readNewMessages());
     ASSERT_THROW(pc.addMessage(errorMessage), ChatException);
-
-    auto removedMessage = std::make_shared<Message>("Buonasera", sysLuigi.getPrimaryKey());
-
     ASSERT_THROW(pc.removeMessage(removedMessage), ChatException);
-
     ASSERT_NO_THROW(pc.removeMessage(message));
 }

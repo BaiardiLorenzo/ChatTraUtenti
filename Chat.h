@@ -31,6 +31,15 @@ public:
     virtual void readAllMessages() = 0;
 
     virtual bool readNewMessages() = 0;
+
+    int getNewMessages() const{
+        int i=0;
+        for(auto it : messages){
+            if(!it->isRead())
+                i++;
+        }
+        return i;
+    }
     
     const std::shared_ptr<Message> &getLastMessage() const{
         messages.back();

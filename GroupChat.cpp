@@ -14,7 +14,7 @@ GroupChat::~GroupChat() {
 
 void GroupChat::addMessage(const std::shared_ptr<Message> &m) {
     auto it = find(usersPrimaryKeys.begin(), usersPrimaryKeys.end(), m->getOwner());
-    if(it != usersPrimaryKeys.end()){
+    if(it != usersPrimaryKeys.end() || m->getOwner() == adminPrimaryKey){
         if(!m->getText().empty()) {
             messages.push_back(m);
             if (m->getOwner() != adminPrimaryKey)

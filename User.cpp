@@ -6,10 +6,8 @@
 
 int User::numUsers = 0;
 
-User::User(const std::string &name, const int age, const char gender) : name(name), age(age), gender(gender){
+User::User(const std::string &name, const int age, const char gender) : name(name), age(age), gender(gender), primaryKey(name){
     numUsers++;
-    //primaryKey = name+std::to_string(numUsers)+std::to_string(age)+gender;
-    primaryKey = name;
 }
 
 User::~User() {
@@ -18,13 +16,16 @@ User::~User() {
 std::shared_ptr<Chat> User::createPrivateChat(User &otherUser) {
     std::shared_ptr<Chat> chat_ptr = std::make_shared<PrivateChat>(primaryKey, otherUser.primaryKey);
     chats.insert(std::make_pair(otherUser.getPrimaryKey(), chat_ptr));
-    otherUser.addChat(primaryKey, chat_ptr);
+    otherUser.addChat(this->getPrimaryKey(), chat_ptr);
     return chat_ptr;
 }
 
 std::shared_ptr<Chat> User::findPrivateChat(const User &u) const {
-    auto it=chats.find(u.getName());
-    return (it->second);
+    auto it = chats.find(u.getName());
+    if(it!=chats.end())
+        return (it->second);
+    else
+        throw ChatException(u.getPrimaryKey(),"Non è stata trovata questa chat Privata");
 }
 
 std::shared_ptr<Chat> User::createGroupChat(const std::string &name, const std::string &description, const std::vector<User*> &participants) {
@@ -40,7 +41,10 @@ std::shared_ptr<Chat> User::createGroupChat(const std::string &name, const std::
 
 std::shared_ptr<Chat> User::findGroupChat(const std::string &chatPrimaryKey) const{
     auto it = chats.find(chatPrimaryKey);
-    return it->second;
+    if(it!=chats.end())
+        return it->second;
+    else
+        throw ChatException(chatPrimaryKey,"Non è stata trovata questa chat di Gruppo");
 }
 
 void User::addChat(const std::string &key, std::shared_ptr<Chat> &chat_ptr) {
@@ -51,11 +55,10 @@ void User::removeChat(const std::shared_ptr<Chat> &c) {
     auto it = chats.find(c->getPrimaryKey());
     if(it != chats.end()){
         chats.erase(it);
-        std::cout<<getPrimaryKey()<<" ha abbandonato la chat "<<c->getPrimaryKey()<<std::endl;
+        std::cout<<getPrimaryKey()<<" ha abbandonato la chat con "<<c->getPrimaryKey()<<std::endl;
     }else{
         throw ChatException(c->getPrimaryKey(),"L'utente non partecipa a questa chat, non ha abbandonato la chat");
     }
-
 }
 
 

@@ -23,11 +23,11 @@ void Notification::detach(){
 
 void Notification::update(){
     if(enable)
-        this->send(subject->getLastMessage());
+        send(subject->getLastMessage(), subject->getNewMessages());
 }
 
-void Notification::send(const std::shared_ptr<Message> &m){
-    std::cout<<"NOTIFICA da "<<m->getOwner()<<": "<<m->getText()<<" - alle "<<m->getTimeS()<<std::endl;
+void Notification::send(const std::shared_ptr<Message> &m, const int newMessages){
+    std::cout<<"NOTIFICA da "<<m->getOwner()<<": "<<m->getText()<<" - alle "<<m->getTimeS()<<" / "<<newMessages<<" messaggi non letti"<<std::endl;
 }
 
 

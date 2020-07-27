@@ -4,7 +4,7 @@
 
 #include "GroupChat.h"
 
-GroupChat::GroupChat(const std::string &nameChat, const std::string &description, const std::string &adminPrimaryKey, const std::vector<std::string> &usersPrimaryKeys)
+GroupChat::GroupChat(const std::string &nameChat, const std::string &description, const std::string &adminPrimaryKey, const std::set<std::string> &usersPrimaryKeys)
                             : Chat(nameChat), nameChat(nameChat), description(description), adminPrimaryKey(adminPrimaryKey), usersPrimaryKeys(usersPrimaryKeys){
 }
 
@@ -39,14 +39,14 @@ void GroupChat::removeMessage(std::shared_ptr<Message> &m) {
 
 void GroupChat::readAllMessages() {
     std::cout<<std::endl<<"CHAT DI GRUPPO: "<<nameChat<<std::endl;
-    for(auto it: messages)
+    for(auto &it: messages)
         it->readMessage();
     std::cout<<std::endl;
 }
 
 bool GroupChat::readNewMessages() {
     bool newMes = false;
-    for(auto it: messages) {
+    for(auto &it: messages) {
         if(!it->isRead()){
             if(!newMes){
                 std::cout<<std::endl<<"NUOVI MESSAGGI DAL GRUPPO: "<<nameChat<<std::endl;

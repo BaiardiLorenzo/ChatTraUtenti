@@ -6,12 +6,13 @@
 #define CHATTRAUTENTI_GROUPCHAT_H
 
 #include <algorithm>
+#include <set>
 
 #include "Chat.h"
 
 class GroupChat : public Chat{
 public:
-    GroupChat(const std::string &name, const std::string &description, const std::string &primaryKey, const std::vector<std::string> &primaryKeysUsers);
+    GroupChat(const std::string &name, const std::string &description, const std::string &primaryKey, const std::set<std::string> &primaryKeysUsers);
 
     ~GroupChat() override;
 
@@ -39,11 +40,11 @@ public:
         GroupChat::adminPrimaryKey = adminPrimaryKey;
     }
 
-    const std::vector<std::string> &getUsersPrimaryKeys() const {
+    const std::set<std::string> &getUsersPrimaryKeys() const {
         return usersPrimaryKeys;
     }
 
-    void setUsersPrimaryKeys(const std::vector<std::string> &usersPrimaryKeys) {
+    void setUsersPrimaryKeys(const std::set<std::string> &usersPrimaryKeys) {
         GroupChat::usersPrimaryKeys = usersPrimaryKeys;
     }
 
@@ -60,7 +61,7 @@ private:
     std::string description;
     std::string adminPrimaryKey;
 
-    std::vector<std::string> usersPrimaryKeys;
+    std::set<std::string> usersPrimaryKeys;
 };
 
 

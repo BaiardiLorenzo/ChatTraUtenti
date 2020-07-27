@@ -34,7 +34,7 @@ public:
 
     int getNewMessages() const{
         int i=0;
-        for(auto it : messages){
+        for(auto &it : messages){
             if(!it->isRead())
                 i++;
         }

@@ -16,5 +16,4 @@ TEST(Notification, enableNotification){
     ASSERT_TRUE(notification.isEnable());
     notification.attach();
     chat->addMessage(message);
-
 }

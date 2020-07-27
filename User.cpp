@@ -29,9 +29,9 @@ std::shared_ptr<Chat> User::findPrivateChat(const User &u) const {
 }
 
 std::shared_ptr<Chat> User::createGroupChat(const std::string &name, const std::string &description, const std::vector<User*> &participants) {
-    std::vector<std::string> primaryKeysUsers;
+    std::set<std::string> primaryKeysUsers;
     for(auto it: participants)
-        primaryKeysUsers.push_back(it->getPrimaryKey());
+        primaryKeysUsers.insert(it->getPrimaryKey());
     std::shared_ptr<Chat> chat_ptr = std::make_shared<GroupChat>(name, description, primaryKey, primaryKeysUsers);
     chats.insert(std::make_pair(name, chat_ptr));
     for(auto it: participants)

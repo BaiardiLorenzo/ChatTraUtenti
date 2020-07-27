@@ -19,7 +19,7 @@ class User {
 public:
     static int numUsers;
 
-    explicit User(const std::string &name, const int age, const char gender);
+    User(const std::string &name, const int age, const char gender);
 
     ~User();
 
